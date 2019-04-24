@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var promise = new Promise(function(resolve, reject) {
+      console.log("............");
+      // resolve(); // 这是promise的一个机制，只有promise实例的状态变为resolved，才会会触发then回调函数
+      // reject()
+    });
+
+    promise.then(()=>{
+      console.log(1)
+    }).catch(()=>{
+      console.log('失败')
+    })
+  </script>
+</html>
