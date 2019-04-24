@@ -103,6 +103,8 @@ Macrotasks、Microtasks执行机制：
 
 ## 参考文献
 
-https://imweb.io/topic/5a27610da192c3b460fce29f
-https://www.miaoroom.com/code/ued/javascript/promise-guide.html
-https://www.miaoroom.com/code/ued/javascript/async-await-guide.html
+任务队列：https://imweb.io/topic/5a27610da192c3b460fce29f
+promise：https://www.miaoroom.com/code/ued/javascript/promise-guide.html
+async/await：
+- http://www.ruanyifeng.com/blog/2015/05/async.html
+- https://www.miaoroom.com/code/ued/javascript/async-await-guide.html

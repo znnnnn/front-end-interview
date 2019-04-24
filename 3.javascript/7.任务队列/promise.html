@@ -7,17 +7,80 @@
     <title>Document</title>
   </head>
   <body></body>
-  <script>
-    var promise = new Promise(function(resolve, reject) {
-      console.log("............");
-      // resolve(); // 这是promise的一个机制，只有promise实例的状态变为resolved，才会会触发then回调函数
-      // reject()
+  <!-- <script>
+    const p1 = new Promise(function(resolve, reject) {
+      console.log("2秒之后，调用返回p1的reject给p2");
+      setTimeout(reject, 3000, new Error("fail"));
     });
 
-    promise.then(()=>{
-      console.log(1)
-    }).catch(()=>{
-      console.log('失败')
-    })
+    const p2 = new Promise(function(resolve, reject) {
+      console.log("1秒之后，调用p1");
+      setTimeout(() => resolve(p1), 1000);
+    });
+
+    p2.then(result => console.log(result)).catch(error => console.log(error));
+    // fail
+  </script> -->
+
+  <script>
+    /*then 回调中，
+    1. 返回是return function,则返回一个Promise 【参见对比3代码】
+    2. 不是一个function,则 then 将创建一个没有经过回调函数处理的新 Promise 对象，这个新 Promise 只是简单地接受调用这个 then 的原 Promise 的终态作为它的终态。（MDN中解释）【参见对比1代码】
+    3. 返回一个function，但没有return ，则相当于 then(null)
+  */
+    //对比1 穿透问题  返回是'foo' 而不是 'bar'
+    Promise.resolve("foo")
+      .then(Promise.resolve("bar"))
+      .then(function(result) {
+        console.log(result);
+      });
+
+    //对比2  打印undefined
+    Promise.resolve("foo")
+      .then(function() {
+        Promise.resolve("bar");
+      })
+      .then(function(result) {
+        console.log(result);
+      });
+
+    //对比3  返回 'bar'
+    Promise.resolve("foo")
+      .then(function() {
+        return Promise.resolve("bar");
+      })
+      .then(function(result) {
+        console.log(result);
+      });
+  </script>
+
+  <script>
+    //版本1 极简实现
+    function Promise1(fn) {
+      var value = null,
+        callbacks = []; //callbacks为数组，因为可能同时有很多个回调
+
+      this.then = function(onFulfilled) {
+        callbacks.push(onFulfilled);
+        return this; //支持链式调用 Promise.then().then
+      };
+
+      function resolve(value) {
+        callbacks.forEach(function(callback) {
+          callback(value);
+        });
+      }
+
+      fn(resolve);
+    }
+    //Test 对上面实现，写一个简单的测试
+    new Promise1(function(resolve) {
+      setTimeout(function() {
+        resolve(1);
+      }, 100);
+    }).then(function(d) {
+      console.log(d);
+    });
+    //1
   </script>
 </html>
