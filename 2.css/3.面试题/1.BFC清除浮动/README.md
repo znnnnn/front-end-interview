@@ -36,7 +36,7 @@
 </div>
 ```
 
-用这个方法时注意 ie8 不支持 inline-block
+用这个方法时注意 ie8 不支持 `inline-block`
 
 3.4、position 的值为 absolute 或 fixed
 
